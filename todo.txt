@@ -1,0 +1,6 @@
+MAKE cffi code compile into .so AND PYTHONICALLY BREAK IT OUT
+
+CAN, SPI, UART
+
+TESTS
+
