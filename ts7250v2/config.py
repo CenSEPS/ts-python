@@ -13,3 +13,48 @@ DIO_REGISTER_OFFSET = {
     'MASKCORE1': 0x3c
 }
 """dict: mapping of EVGPIO register names to their offset from DIO_BASE_ADDRESS"""
+
+SERIAL_DEVICES = {
+    "s0": {
+        'file': '/dev/ttyS0',
+        'proto': 'RS232',
+        'header': 'DB9',
+        'pins': (2, 3),
+        'jumper': 'JP2 ON -> DB9 header, JP2 OFF -> microUSB',
+    },
+    'xuart0': {
+        'file': '/dev/ttyxuart0',
+        'proto': 'RS232',
+        'header': 'COM2',
+        'pins': (2, 3),
+        'jumper': None,
+    },
+    'xuart1': {
+        'file': '/dev/ttyxuart1',
+        'proto': 'RS232',
+        'header': 'COM3',
+        'pins': (2, 3),
+        'jumper': None,
+    },
+    'xuart2': {
+        'file': '/dev/ttyxuart2',
+        'proto': 'RS485',
+        'header': 'COM2',
+        'pins': (1, 6),
+        'jumper': None,
+    },
+    'xuart3': {
+        'file': '/dev/ttyxuart3',
+        'proto': 'RS422',
+        'header': 'COM2',
+        'pins': (4, 9),
+        'jumper': None,
+    },
+    'xuart4': {
+        'file': '/dev/ttyxuart4',
+        'proto': 'RS232',
+        'header': 'DB9',
+        'pins': (2, 3),
+        'jumper': 'JP2 ON -> Not connected, JP2 OFF -> DB9',
+    }
+}
