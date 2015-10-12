@@ -165,25 +165,25 @@ class DIO(object):
         (d, data_off, mask_off) = self._pick_register_offset(DIO_MAP[dioName])
 
         # Step 1
-        self.map.poke16(mask_off, d|MASKCORE_BIT_MASK_SET)
+        self.map.poke16(mask_off, d | MASKCORE_BIT_MASK_SET)
 #        v = struct.pack("<h", d | MASKCORE_BIT_MASK_SET)
-        print "Poke {} - {}".format(hex(mask_off), hex(d|MASKCORE_BIT_MASK_SET))
+        print "Poke {} - {}".format(hex(mask_off), hex(d | MASKCORE_BIT_MASK_SET))
 #        self.mapping[mask_off:mask_off+2] = v
         # Step 2
         while True:
             x = self.map.peek16(data_off)
 #            v = self.mapping[data_off:data_off+2]
 #            x = struct.unpack('<h', v)[0]
-	    print "Peek {} - {}".format(hex(data_off), hex(x))
+            print "Peek {} - {}".format(hex(data_off), hex(x))
             if (x & DATACORE_BIT_VALID_READ_DATA)\
-                != DATACORE_BIT_VALID_READ_DATA:
+               != DATACORE_BIT_VALID_READ_DATA:
                     print "Flush complete"
                     break
-	
+
         # Step 3
         self.map.poke16(mask_off, d & ~MASKCORE_BIT_MASK_SET)
 #        v = struct.pack("<h", d & ~MASKCORE_BIT_MASK_SET)
-        print "Poke {} - {}".format(hex(mask_off), hex(d& ~MASKCORE_BIT_MASK_SET))
+        print "Poke {} - {}".format(hex(mask_off), hex(d & ~MASKCORE_BIT_MASK_SET))
 #        self.mapping[mask_off:mask_off+2] = v
 
         # Step 4
@@ -191,17 +191,16 @@ class DIO(object):
             x = self.map.peek16(data_off)
 #            v = self.mapping[data_off:data_off+2]
 #            x = struct.unpack('<h', v)[0]
-    	    print "Peek {} - {}".format(hex(data_off), hex(x))
+            print "Peek {} - {}".format(hex(data_off), hex(x))
             if (x & DATACORE_BIT_VALID_READ_DATA)\
-                != DATACORE_BIT_VALID_READ_DATA:
+               != DATACORE_BIT_VALID_READ_DATA:
                     print "Value = {}".format(hex(value))
                     print "Read complete"
                     break
             else:
-                if(x&0x1F) == d:
+                if(x & 0x1F) == d:
                     value = x & DATACORE_BIT_VALUE
 
-	
         if value != 0:
             return 1
         else:
@@ -226,7 +225,7 @@ class DIO(object):
 #             if (x & 0x100) != 0x100:
 #                 print "Flush complete"
 #                 break
-        
+
         packed_data = struct.pack("<h", dio & ~0x80)
         self.mapping[mask_off:mask_off+2] = packed_data
 
@@ -234,11 +233,11 @@ class DIO(object):
             packed_data = self.mapping[data_off:data_off+2]
             x = struct.unpack("<h", packed_data)[0]
             print hex(x)
-            if (x&0x100) != 0x100:
+            if (x & 0x100) != 0x100:
                 print "Read complete"
                 break
             else:
-                if(x&0x7f) == dio:
+                if (x & 0x7f) == dio:
                     value = x & 0x80
 
         return value
@@ -317,7 +316,8 @@ class DIO(object):
         """
         raise NotImplemented
 
-    # TODO: redo so it takes an EVGPIO # not a DIO Name?
+    # TODO: redo so it takes an EVGPIO
+    # not a DIO Name?
     def _set_reg(self, dioName, configBits):
         """write dio|configBits to the appriopriate register
 
