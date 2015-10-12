@@ -5,3 +5,4 @@ venv*/
 setup.cfg
 build/
 *.so
+ts7250v2/_cmmapwrapper.c
