@@ -7,7 +7,7 @@ REQ_MIN=requirements-min.txt
 REQ_DEV=requirements-devel.txt
 REQ_TST=requirements-test.txt
 
-.PHONY: test, install-py-pkgs
+.PHONY: test py-pkg-minimum py-pkg-developer py-pkg-testing
 
 
 all:
