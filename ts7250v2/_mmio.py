@@ -1,45 +1,43 @@
 from cffi import FFI
 
 
-def _build_c_extension():
-    ffi = FFI()
+ffi = FFI()
 
-    ffi.cdef("""
-    typedef int... off_t;
-    #define PROT_READ ...
-    #define PROT_WRITE ...
-    #define PROT_EXEC ...
-    #define PROT_NONE ...
-    #define MAP_PRIVATE ...
-    #define MAP_FIXED ...
-    #define MAP_SHARED ...
+ffi.cdef("""
+typedef int... off_t;
+#define PROT_READ ...
+#define PROT_WRITE ...
+#define PROT_EXEC ...
+#define PROT_NONE ...
+#define MAP_PRIVATE ...
+#define MAP_FIXED ...
+#define MAP_SHARED ...
 
-    void mmap_init(off_t offset);
-    uint16_t mmap_peek16(off_t offset);
-    void mmap_poke16(off_t offset, uint16_t value);
-    """)
+void mmap_init(off_t offset);
+uint16_t mmap_peek16(off_t offset);
+void mmap_poke16(off_t offset, uint16_t value);
+""")
 
-    ffi.set_source("_cmmapwrapper", """
-    #include<sys/mman.h>
-    #include<sys/types.h>
-    #include<sys/stat.h>
-    #include<fcntl.h>
-    volatile uint16_t *map = 0;
-    void mmap_init(off_t offset){
-        int fd;
-        fd = open("/dev/mem", O_RDWR|O_SYNC);
-        map = mmap(0, getpagesize(), PROT_READ|PROT_WRITE, MAP_SHARED, fd, offset);
-    }
-    uint16_t  mmap_peek16(off_t offset){
-        uint16_t n;
-        n = map[offset/2];
-        return n;
-    }
-    void mmap_poke16(off_t offset, uint16_t value){
-        map[offset/2] = value;
-    }
-    """)
-    ffi.compile(tmpdir='build')
+ffi.set_source("ts7250v2._cmmapwrapper", """
+#include<sys/mman.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+volatile uint16_t *map = 0;
+void mmap_init(off_t offset){
+    int fd;
+    fd = open("/dev/mem", O_RDWR|O_SYNC);
+    map = mmap(0, getpagesize(), PROT_READ|PROT_WRITE, MAP_SHARED, fd, offset);
+}
+uint16_t  mmap_peek16(off_t offset){
+    uint16_t n;
+    n = map[offset/2];
+    return n;
+}
+void mmap_poke16(off_t offset, uint16_t value){
+    map[offset/2] = value;
+}
+""")
 
 
 class MMIO(object):
