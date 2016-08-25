@@ -5,4 +5,5 @@ venv*/
 setup.cfg
 build/
 *.so
+.eggs/
 ts7250v2/_cmmapwrapper.c
